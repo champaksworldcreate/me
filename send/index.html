@@ -4,14 +4,18 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Student Learning Message | Programmer's Picnic</title>
 
-    <meta name="description"
+    <meta
+        name="description"
         content="Create personalised daily, weekly and other student learning messages and share them through WhatsApp.">
 
-    <meta name="keywords"
+    <meta
+        name="keywords"
         content="student learning message, WhatsApp student message, Programmer's Picnic, Champak Roy">
 
     <meta name="author" content="Champak Roy">
@@ -37,9 +41,11 @@
             padding: 36px 18px;
             text-align: center;
             color: #ffffff;
-            background: linear-gradient(135deg,
-                    #0d47a1,
-                    #1976d2);
+            background: linear-gradient(
+                135deg,
+                #0d47a1,
+                #1976d2
+            );
         }
 
         .page-header h1 {
@@ -130,18 +136,17 @@
             line-height: 1.5;
         }
 
-        .button-row,
-        .secondary-buttons {
+        .button-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-        }
-
-        .button-row {
             margin-top: 8px;
         }
 
         .secondary-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             margin-top: 12px;
         }
 
@@ -171,6 +176,11 @@
         .share-button {
             color: #063d1d;
             background: #25d366;
+        }
+
+        .new-version-button {
+            color: #4a148c;
+            background: #f3e5f5;
         }
 
         .copy-button {
@@ -237,7 +247,7 @@
             line-height: 1.7;
         }
 
-        @media (max-width: 650px) {
+        @media (max-width: 700px) {
             main {
                 margin-top: 20px;
             }
@@ -271,8 +281,9 @@
             <h2>Create a Message</h2>
 
             <p class="intro">
-                Select Daily, Weekly or Others, enter the details and
-                share the prepared message. No phone number is required.
+                Select Daily, Weekly or Others. Some parts of the
+                generated message will change automatically so that
+                students do not receive exactly the same wording every time.
             </p>
 
             <form id="studentForm">
@@ -283,7 +294,11 @@
                             Student Name
                         </label>
 
-                        <input type="text" id="studentName" placeholder="Enter the student's name" required>
+                        <input
+                            type="text"
+                            id="studentName"
+                            placeholder="Enter the student's name"
+                            required>
                     </div>
 
                     <div class="form-group">
@@ -312,7 +327,10 @@
                         Main Topic
                     </label>
 
-                    <input type="text" id="topic" placeholder="For example: Python Lists">
+                    <input
+                        type="text"
+                        id="topic"
+                        placeholder="For example: Python Lists">
                 </div>
 
                 <div class="form-group">
@@ -320,7 +338,8 @@
                         Concepts, Tasks or Assigned Work
                     </label>
 
-                    <textarea id="concepts"
+                    <textarea
+                        id="concepts"
                         placeholder="Describe the lesson, work, questions or instructions"></textarea>
                 </div>
 
@@ -330,7 +349,9 @@
                             Submission Date
                         </label>
 
-                        <input type="date" id="deadline">
+                        <input
+                            type="date"
+                            id="deadline">
                     </div>
 
                     <div class="form-group">
@@ -338,7 +359,10 @@
                             Submission Time
                         </label>
 
-                        <input type="time" id="submissionTime" value="17:00">
+                        <input
+                            type="time"
+                            id="submissionTime"
+                            value="17:00">
                     </div>
                 </div>
 
@@ -347,7 +371,8 @@
                         Lesson or Assignment Links
                     </label>
 
-                    <textarea id="links"
+                    <textarea
+                        id="links"
                         placeholder="Enter one link per line.&#10;&#10;https://www.learnwithchampak.live/lesson-1&#10;https://youtu.be/example"></textarea>
 
                     <p class="help-text">
@@ -361,34 +386,58 @@
                         Teacher's Note
                     </label>
 
-                    <textarea id="teacherNote" placeholder="Add feedback, instructions or encouragement">🙂</textarea>
+                    <textarea
+                        id="teacherNote"
+                        placeholder="Add feedback, instructions or encouragement">🙂</textarea>
                 </div>
 
                 <div class="button-row">
-                    <button type="button" class="preview-button" id="previewButton">
+                    <button
+                        type="button"
+                        class="preview-button"
+                        id="previewButton">
                         Preview Message
                     </button>
 
-                    <button type="submit" class="share-button">
+                    <button
+                        type="submit"
+                        class="share-button">
                         Select WhatsApp and Send
                     </button>
                 </div>
 
                 <div class="secondary-buttons">
-                    <button type="button" class="copy-button" id="copyButton">
+                    <button
+                        type="button"
+                        class="new-version-button"
+                        id="newVersionButton">
+                        Generate New Version
+                    </button>
+
+                    <button
+                        type="button"
+                        class="copy-button"
+                        id="copyButton">
                         Copy Message
                     </button>
 
-                    <button type="reset" class="reset-button">
+                    <button
+                        type="reset"
+                        class="reset-button">
                         Clear Form
                     </button>
                 </div>
 
-                <p id="statusMessage" class="status-message" aria-live="polite">
+                <p
+                    id="statusMessage"
+                    class="status-message"
+                    aria-live="polite">
                 </p>
             </form>
 
-            <section class="preview-section" id="previewSection">
+            <section
+                class="preview-section"
+                id="previewSection">
 
                 <h3>Message Preview</h3>
 
@@ -396,9 +445,10 @@
             </section>
 
             <div class="information-box">
-                Today’s date is added automatically at the beginning of
-                every message. The message also includes a reply link
-                for Champak and the Programmer's Picnic WhatsApp group.
+                Greetings, headings, encouragement and closing lines are
+                selected randomly. Preview, Copy and Send will use the
+                same version until the form is edited or a new version
+                is generated.
             </div>
         </section>
     </main>
@@ -435,15 +485,151 @@
         const copyButton =
             document.getElementById("copyButton");
 
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
+        const newVersionButton =
+            document.getElementById("newVersionButton");
 
-            if (!validateForm()) {
-                return;
+        /*
+         * Stores one generated version.
+         * This prevents Preview, Copy and Send from showing
+         * three different random messages.
+         */
+        let cachedMessage = "";
+
+        const greetings = {
+            morning: [
+                "Good morning",
+                "A very good morning to you",
+                "Hello and good morning",
+                "Wishing you a fresh and productive morning"
+            ],
+
+            general: [
+                "Hello",
+                "Greetings",
+                "I hope you are doing well",
+                "Hello and best wishes"
+            ]
+        };
+
+        const dailyHeadings = [
+            "Today's Learning Target",
+            "Your Learning Focus for Today",
+            "Today's Study Mission",
+            "Your Task for Today",
+            "Today's Learning Challenge"
+        ];
+
+        const weeklyHeadings = [
+            "Your Weekly Learning Plan",
+            "Learning Roadmap for This Week",
+            "Your Goals for the Week",
+            "This Week's Study Plan",
+            "Your Weekly Learning Mission"
+        ];
+
+        const dailyEncouragements = [
+            "Focus on understanding the topic properly and complete the assigned work carefully.",
+
+            "Work steadily, test your understanding and do not rush merely to finish the task.",
+
+            "Give attention to the logic behind the topic. Clear understanding is more valuable than hurried completion.",
+
+            "Take the work one step at a time and make sure that every important idea is clear.",
+
+            "Approach the task patiently, practise the concept and check your work before submitting it."
+        ];
+
+        const weeklyEncouragements = [
+            "Please complete the assigned work steadily throughout the week.",
+
+            "Divide the work into small daily targets and make regular progress during the week.",
+
+            "Maintain a steady learning rhythm instead of leaving all the work for the final day.",
+
+            "Plan your practice carefully and complete a useful portion of the work each day.",
+
+            "Use the week well: learn, practise, revise and ask questions whenever necessary."
+        ];
+
+        const understandingReminders = [
+            "Make sure that you understand the concepts and can explain them clearly in your own words.",
+
+            "Your goal is not only to finish the task but also to understand why the solution works.",
+
+            "Try to explain the main ideas without looking at the lesson. This will show whether your understanding is clear.",
+
+            "Do not depend only on memorisation. Understand the logic and practise applying it independently.",
+
+            "After completing the task, review the concept and check whether you can teach the basic idea to someone else."
+        ];
+
+        const submissionReminders = [
+            "Please send your work, progress report, code or screenshots after completion.",
+
+            "After finishing, share your code, screenshots or a short progress update.",
+
+            "Submit your completed work along with any questions or difficulties you faced.",
+
+            "When the task is complete, send your work and briefly mention what you learned.",
+
+            "Please share your result after completion and tell me if any part needs further explanation."
+        ];
+
+        const confirmationRequests = [
+            'Please confirm receipt by replying: "Weekly plan received."',
+
+            'Reply with "Plan received" after reading the complete weekly assignment.',
+
+            'Please acknowledge the message by replying: "I have received this week’s plan."',
+
+            'After reading the plan, reply with: "Received. I will begin the work."',
+
+            'Please send a short confirmation after you have reviewed the weekly plan.'
+        ];
+
+        const motivationalClosings = [
+            "Keep learning consistently. Small steps create strong results.",
+
+            "Stay curious, keep practising and make today’s effort count.",
+
+            "Consistency is your strongest learning tool. Keep moving forward.",
+
+            "Every completed task strengthens your confidence and ability.",
+
+            "Learn carefully, practise honestly and improve one step at a time.",
+
+            "Your regular effort today will make tomorrow’s problems easier.",
+
+            "Keep asking questions. Curiosity is an important part of learning."
+        ];
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+                event.preventDefault();
+
+                if (!validateForm()) {
+                    return;
+                }
+
+                await shareMessage();
             }
+        );
 
-            await shareMessage();
-        });
+        /*
+         * Any change in the form invalidates the cached version.
+         * A fresh variation will be created the next time the
+         * user previews, copies or sends.
+         */
+        form.addEventListener(
+            "input",
+            invalidateCachedMessage
+        );
+
+        form.addEventListener(
+            "change",
+            invalidateCachedMessage
+        );
 
         previewButton.addEventListener(
             "click",
@@ -455,19 +641,50 @@
             copyMessage
         );
 
-        form.addEventListener("reset", function () {
-            window.setTimeout(function () {
-                setDefaultDateAndTime();
-                clearPreview();
-                clearStatus();
-            }, 0);
-        });
+        newVersionButton.addEventListener(
+            "click",
+            generateNewVersion
+        );
+
+        form.addEventListener(
+            "reset",
+            function () {
+                window.setTimeout(
+                    function () {
+                        setDefaultDateAndTime();
+                        invalidateCachedMessage();
+                        clearPreview();
+                        clearStatus();
+                    },
+                    0
+                );
+            }
+        );
 
         function getValue(id) {
             return document
                 .getElementById(id)
                 .value
                 .trim();
+        }
+
+        function randomItem(items) {
+            const randomIndex =
+                Math.floor(Math.random() * items.length);
+
+            return items[randomIndex];
+        }
+
+        function invalidateCachedMessage() {
+            cachedMessage = "";
+        }
+
+        function getPreparedMessage() {
+            if (!cachedMessage) {
+                cachedMessage = createMessage();
+            }
+
+            return cachedMessage;
         }
 
         function getLocalDateValue(date) {
@@ -538,11 +755,20 @@
                 return "Not specified";
             }
 
-            const parts = timeValue.split(":");
-            const date = new Date();
+            const parts =
+                timeValue.split(":");
 
-            date.setHours(Number(parts[0]));
-            date.setMinutes(Number(parts[1]));
+            const date =
+                new Date();
+
+            date.setHours(
+                Number(parts[0])
+            );
+
+            date.setMinutes(
+                Number(parts[1])
+            );
+
             date.setSeconds(0);
 
             return date.toLocaleTimeString(
@@ -578,30 +804,36 @@
         }
 
         function createLinksSection() {
-            const links = getLinks();
+            const links =
+                getLinks();
 
             if (links.length === 0) {
                 return "";
             }
 
-            let linksText = "\n\n";
+            let linksText =
+                "\n\n";
 
-            linksText += links.length === 1
-                ? "Lesson or assignment link:\n"
-                : "Lesson or assignment links:\n";
+            linksText +=
+                links.length === 1
+                    ? "Lesson or assignment link:\n"
+                    : "Lesson or assignment links:\n";
 
-            links.forEach(function (link, index) {
-                if (links.length === 1) {
-                    linksText += link;
-                } else {
-                    linksText +=
-                        `${index + 1}. ${link}`;
+            links.forEach(
+                function (link, index) {
+                    if (links.length === 1) {
+                        linksText += link;
+                    }
+                    else {
+                        linksText +=
+                            `${index + 1}. ${link}`;
 
-                    if (index < links.length - 1) {
-                        linksText += "\n";
+                        if (index < links.length - 1) {
+                            linksText += "\n";
+                        }
                     }
                 }
-            });
+            );
 
             return linksText;
         }
@@ -614,16 +846,22 @@
                 getValue("messageType");
 
             const topic =
-                getValue("topic") || "Not specified";
+                getValue("topic") ||
+                "Not specified";
 
             const concepts =
-                getValue("concepts") || "Not specified";
+                getValue("concepts") ||
+                "Not specified";
 
             const deadline =
-                formatDate(getValue("deadline"));
+                formatDate(
+                    getValue("deadline")
+                );
 
             const submissionTime =
-                formatTime(getValue("submissionTime"));
+                formatTime(
+                    getValue("submissionTime")
+                );
 
             const teacherNote =
                 getValue("teacherNote");
@@ -631,15 +869,30 @@
             const messageDate =
                 getTodayMessageDate();
 
+            const motivation =
+                randomItem(motivationalClosings);
+
             let message = "";
 
             if (selectedType === "daily") {
+                const greeting =
+                    randomItem(greetings.morning);
+
+                const heading =
+                    randomItem(dailyHeadings);
+
+                const encouragement =
+                    randomItem(dailyEncouragements);
+
+                const submissionReminder =
+                    randomItem(submissionReminders);
+
                 message =
-                    `Date: ${messageDate}
+`Date: ${messageDate}
 
-Good morning, ${studentName}.
+${greeting}, ${studentName}.
 
-Today's Learning Target
+${heading}
 
 Topic: ${topic}
 
@@ -649,18 +902,35 @@ ${concepts}
 Submission date: ${deadline}
 Submission time: ${submissionTime}
 
-Focus on understanding the topic properly and complete the assigned work carefully.
+${encouragement}
 
-Please send your work, progress report, code or screenshots after completion.`;
+${submissionReminder}
+
+${motivation}`;
             }
 
             else if (selectedType === "weekly") {
+                const greeting =
+                    randomItem(greetings.morning);
+
+                const heading =
+                    randomItem(weeklyHeadings);
+
+                const weeklyEncouragement =
+                    randomItem(weeklyEncouragements);
+
+                const understandingReminder =
+                    randomItem(understandingReminders);
+
+                const confirmation =
+                    randomItem(confirmationRequests);
+
                 message =
-                    `Date: ${messageDate}
+`Date: ${messageDate}
 
-Good morning, ${studentName}.
+${greeting}, ${studentName}.
 
-Your Weekly Learning Plan
+${heading}
 
 Main topic: ${topic}
 
@@ -670,19 +940,36 @@ ${concepts}
 Submission deadline: ${deadline}
 Submission time: ${submissionTime}
 
-Please complete the assigned work steadily throughout the week.
+${weeklyEncouragement}
 
-Do not only complete the tasks. Make sure that you understand the concepts and can explain them clearly in your own words.
+${understandingReminder}
 
-Please confirm receipt by replying:
-"Weekly plan received."`;
+${confirmation}
+
+${motivation}`;
             }
 
             else {
-                message =
-                    `Date: ${messageDate}
+                const greeting =
+                    randomItem(greetings.general);
 
-Hello ${studentName}.
+                const headings = [
+                    "Learning Message",
+                    "A Message for You",
+                    "Important Learning Update",
+                    "Study Information",
+                    "Learning Instructions"
+                ];
+
+                const heading =
+                    randomItem(headings);
+
+                message =
+`Date: ${messageDate}
+
+${greeting}, ${studentName}.
+
+${heading}
 
 Topic: ${topic}
 
@@ -690,10 +977,13 @@ Message or instructions:
 ${concepts}
 
 Submission date: ${deadline}
-Submission time: ${submissionTime}`;
+Submission time: ${submissionTime}
+
+${motivation}`;
             }
 
-            message += createLinksSection();
+            message +=
+                createLinksSection();
 
             if (teacherNote) {
                 message +=
@@ -701,7 +991,7 @@ Submission time: ${submissionTime}`;
             }
 
             message +=
-                `\n\nStudent Reply / Inquiry Form:
+`\n\nStudent Reply / Inquiry Form:
 https://editor.learnwithchampak.live/student-reply-inquiry/
 
 Reply to Champak:
@@ -721,7 +1011,7 @@ Programmer's Picnic by Champak Roy`;
             }
 
             messagePreview.textContent =
-                createMessage();
+                getPreparedMessage();
 
             previewSection.style.display =
                 "block";
@@ -732,14 +1022,42 @@ Programmer's Picnic by Champak Roy`;
             });
         }
 
+        function generateNewVersion() {
+            if (!validateForm()) {
+                return;
+            }
+
+            invalidateCachedMessage();
+
+            messagePreview.textContent =
+                getPreparedMessage();
+
+            previewSection.style.display =
+                "block";
+
+            showStatus(
+                "A new message variation has been generated.",
+                "success"
+            );
+
+            previewSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
         async function shareMessage() {
-            const message = createMessage();
+            const message =
+                getPreparedMessage();
 
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: "Student Learning Message",
-                        text: message
+                        title:
+                            "Student Learning Message",
+
+                        text:
+                            message
                     });
 
                     showStatus(
@@ -770,11 +1088,12 @@ Programmer's Picnic by Champak Roy`;
                 "https://wa.me/?text=" +
                 encodeURIComponent(message);
 
-            const newWindow = window.open(
-                whatsappUrl,
-                "_blank",
-                "noopener,noreferrer"
-            );
+            const newWindow =
+                window.open(
+                    whatsappUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
 
             if (!newWindow) {
                 showStatus(
@@ -789,7 +1108,8 @@ Programmer's Picnic by Champak Roy`;
                 return;
             }
 
-            const message = createMessage();
+            const message =
+                getPreparedMessage();
 
             try {
                 await navigator.clipboard.writeText(
@@ -808,11 +1128,18 @@ Programmer's Picnic by Champak Roy`;
 
         function fallbackCopy(message) {
             const temporaryTextArea =
-                document.createElement("textarea");
+                document.createElement(
+                    "textarea"
+                );
 
-            temporaryTextArea.value = message;
-            temporaryTextArea.style.position = "fixed";
-            temporaryTextArea.style.opacity = "0";
+            temporaryTextArea.value =
+                message;
+
+            temporaryTextArea.style.position =
+                "fixed";
+
+            temporaryTextArea.style.opacity =
+                "0";
 
             document.body.appendChild(
                 temporaryTextArea
@@ -822,7 +1149,9 @@ Programmer's Picnic by Champak Roy`;
             temporaryTextArea.select();
 
             try {
-                document.execCommand("copy");
+                document.execCommand(
+                    "copy"
+                );
 
                 showStatus(
                     "Message copied. You can paste it into WhatsApp.",
@@ -840,7 +1169,8 @@ Programmer's Picnic by Champak Roy`;
         }
 
         function showStatus(text, type) {
-            statusMessage.textContent = text;
+            statusMessage.textContent =
+                text;
 
             statusMessage.className =
                 "status-message " +
@@ -852,14 +1182,19 @@ Programmer's Picnic by Champak Roy`;
         }
 
         function clearStatus() {
-            statusMessage.textContent = "";
+            statusMessage.textContent =
+                "";
+
             statusMessage.className =
                 "status-message";
         }
 
         function clearPreview() {
-            previewSection.style.display = "none";
-            messagePreview.textContent = "";
+            previewSection.style.display =
+                "none";
+
+            messagePreview.textContent =
+                "";
         }
 
         setDefaultDateAndTime();
