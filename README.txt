@@ -1,14 +1,15 @@
-Student Forms Website
+Student Communication Forms
 
-Main page:
+Central page:
 - index.html
 
-Folder pages:
-- welcome/index.html
-- testimonial-request/index.html
-- introduction/index.html
-- fee-thanks/index.html
-- student-reply-inquiry/index.html
+Folders:
+- send/index.html — Send Student Message
+- welcome/index.html — Welcome Message
+- testimonial-request/index.html — Testimonial Request
+- introduction/index.html — Introduction Message
+- fee-thanks/index.html — Fee Payment Thanks
+- student-reply-inquiry/index.html — Student Reply / Inquiry
 
-Upload the full folder structure to your website or GitHub Pages.
-Open index.html to access all forms.
+Every generated message includes:
+https://editor.learnwithchampak.live/student-reply-inquiry/
