@@ -12,11 +12,11 @@
 
     <meta
         name="description"
-        content="Create personalised daily, weekly and other student learning messages and share them through WhatsApp.">
+        content="Create personalised student learning messages with links and pasted images, then share them through WhatsApp.">
 
     <meta
         name="keywords"
-        content="student learning message, WhatsApp student message, Programmer's Picnic, Champak Roy">
+        content="student learning message, WhatsApp student message, image data URL, Programmer's Picnic, Champak Roy">
 
     <meta name="author" content="Champak Roy">
     <meta name="theme-color" content="#1769aa">
@@ -54,14 +54,14 @@
         }
 
         .page-header p {
-            max-width: 700px;
+            max-width: 760px;
             margin: auto;
             line-height: 1.6;
             opacity: 0.96;
         }
 
         main {
-            max-width: 850px;
+            max-width: 1050px;
             margin: 30px auto;
             padding: 0 16px 40px;
         }
@@ -134,6 +134,102 @@
             color: #607d8b;
             font-size: 13px;
             line-height: 1.5;
+        }
+
+        .image-section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid #bbdefb;
+            border-radius: 14px;
+            background: #f7fbff;
+        }
+
+        .image-section h3 {
+            margin: 0 0 8px;
+            color: #0d47a1;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .image-paste-card {
+            padding: 14px;
+            border: 1px solid #d7e3ef;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .image-paste-card > label {
+            color: #0d47a1;
+        }
+
+        .paste-zone {
+            display: flex;
+            min-height: 125px;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border: 2px dashed #64b5f6;
+            border-radius: 10px;
+            background: #eaf4fd;
+            color: #0d47a1;
+            text-align: center;
+            line-height: 1.5;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .paste-zone:hover {
+            background: #e3f2fd;
+        }
+
+        .paste-zone:focus {
+            border-color: #0d47a1;
+            outline: 3px solid rgba(25, 118, 210, 0.18);
+        }
+
+        .paste-zone.has-image {
+            border-color: #25d366;
+            background: #effbf3;
+            color: #087f23;
+        }
+
+        .pasted-image {
+            display: none;
+            width: 100%;
+            max-height: 220px;
+            margin-top: 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #eceff1;
+        }
+
+        .image-data {
+            min-height: 85px;
+            margin-top: 12px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .image-file-input {
+            margin-top: 10px;
+            padding: 9px;
+            font-size: 13px;
+        }
+
+        .remove-image-button {
+            width: 100%;
+            min-height: 42px;
+            margin-top: 10px;
+            padding: 10px;
+            color: #b71c1c;
+            background: #ffebee;
         }
 
         .button-row {
@@ -240,11 +336,27 @@
             line-height: 1.65;
         }
 
+        .warning-box {
+            margin-top: 14px;
+            padding: 15px;
+            border-left: 5px solid #f9a825;
+            border-radius: 6px;
+            background: #fffde7;
+            color: #5d4037;
+            line-height: 1.65;
+        }
+
         footer {
             padding: 0 15px 28px;
             color: #607d8b;
             text-align: center;
             line-height: 1.7;
+        }
+
+        @media (max-width: 850px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 700px) {
@@ -271,8 +383,8 @@
         <h1>Student Learning Message</h1>
 
         <p>
-            Prepare a personalised student message and share it through
-            WhatsApp, WhatsApp Business or another application.
+            Prepare a personalised learning message, paste up to three
+            images and share the generated content through WhatsApp.
         </p>
     </header>
 
@@ -281,9 +393,9 @@
             <h2>Create a Message</h2>
 
             <p class="intro">
-                Select Daily, Weekly or Others. Some parts of the
-                generated message will change automatically so that
-                students do not receive exactly the same wording every time.
+                Select Daily, Weekly or Others. Some parts of the message
+                are selected randomly so students do not receive exactly
+                the same wording every time.
             </p>
 
             <form id="studentForm">
@@ -391,6 +503,128 @@
                         placeholder="Add feedback, instructions or encouragement">🙂</textarea>
                 </div>
 
+                <section class="image-section">
+                    <h3>Paste or Select Images</h3>
+
+                    <p class="help-text">
+                        Copy an image or screenshot, tap inside a paste
+                        box and paste it. You may also select an image
+                        file. Each image is converted into a Data URL.
+                    </p>
+
+                    <div class="image-grid">
+
+                        <article class="image-paste-card">
+                            <label>Image 1</label>
+
+                            <div
+                                class="paste-zone"
+                                id="pasteZone1"
+                                tabindex="0"
+                                role="button">
+                                Tap here and paste Image 1
+                            </div>
+
+                            <input
+                                type="file"
+                                id="imageFile1"
+                                class="image-file-input"
+                                accept="image/*">
+
+                            <img
+                                class="pasted-image"
+                                id="imagePreview1"
+                                alt="Image 1 preview">
+
+                            <textarea
+                                id="imageData1"
+                                class="image-data"
+                                readonly
+                                placeholder="Image 1 Data URL will appear here"></textarea>
+
+                            <button
+                                type="button"
+                                class="remove-image-button"
+                                data-image-number="1">
+                                Remove Image 1
+                            </button>
+                        </article>
+
+                        <article class="image-paste-card">
+                            <label>Image 2</label>
+
+                            <div
+                                class="paste-zone"
+                                id="pasteZone2"
+                                tabindex="0"
+                                role="button">
+                                Tap here and paste Image 2
+                            </div>
+
+                            <input
+                                type="file"
+                                id="imageFile2"
+                                class="image-file-input"
+                                accept="image/*">
+
+                            <img
+                                class="pasted-image"
+                                id="imagePreview2"
+                                alt="Image 2 preview">
+
+                            <textarea
+                                id="imageData2"
+                                class="image-data"
+                                readonly
+                                placeholder="Image 2 Data URL will appear here"></textarea>
+
+                            <button
+                                type="button"
+                                class="remove-image-button"
+                                data-image-number="2">
+                                Remove Image 2
+                            </button>
+                        </article>
+
+                        <article class="image-paste-card">
+                            <label>Image 3</label>
+
+                            <div
+                                class="paste-zone"
+                                id="pasteZone3"
+                                tabindex="0"
+                                role="button">
+                                Tap here and paste Image 3
+                            </div>
+
+                            <input
+                                type="file"
+                                id="imageFile3"
+                                class="image-file-input"
+                                accept="image/*">
+
+                            <img
+                                class="pasted-image"
+                                id="imagePreview3"
+                                alt="Image 3 preview">
+
+                            <textarea
+                                id="imageData3"
+                                class="image-data"
+                                readonly
+                                placeholder="Image 3 Data URL will appear here"></textarea>
+
+                            <button
+                                type="button"
+                                class="remove-image-button"
+                                data-image-number="3">
+                                Remove Image 3
+                            </button>
+                        </article>
+
+                    </div>
+                </section>
+
                 <div class="button-row">
                     <button
                         type="button"
@@ -446,9 +680,15 @@
 
             <div class="information-box">
                 Greetings, headings, encouragement and closing lines are
-                selected randomly. Preview, Copy and Send will use the
-                same version until the form is edited or a new version
-                is generated.
+                selected randomly. Preview, Copy and Send use the same
+                generated version until the form is edited or a new
+                version is requested.
+            </div>
+
+            <div class="warning-box">
+                Image Data URLs can be extremely long. Large images may
+                make the WhatsApp message too long. Small compressed
+                screenshots are more likely to work.
             </div>
         </section>
     </main>
@@ -488,12 +728,13 @@
         const newVersionButton =
             document.getElementById("newVersionButton");
 
-        /*
-         * Stores one generated version.
-         * This prevents Preview, Copy and Send from showing
-         * three different random messages.
-         */
         let cachedMessage = "";
+
+        const pastedImages = [
+            null,
+            null,
+            null
+        ];
 
         const greetings = {
             morning: [
@@ -525,6 +766,14 @@
             "Your Goals for the Week",
             "This Week's Study Plan",
             "Your Weekly Learning Mission"
+        ];
+
+        const otherHeadings = [
+            "Learning Message",
+            "A Message for You",
+            "Important Learning Update",
+            "Study Information",
+            "Learning Instructions"
         ];
 
         const dailyEncouragements = [
@@ -584,7 +833,7 @@
 
             'After reading the plan, reply with: "Received. I will begin the work."',
 
-            'Please send a short confirmation after you have reviewed the weekly plan.'
+            "Please send a short confirmation after you have reviewed the weekly plan."
         ];
 
         const motivationalClosings = [
@@ -616,14 +865,17 @@
             }
         );
 
-        /*
-         * Any change in the form invalidates the cached version.
-         * A fresh variation will be created the next time the
-         * user previews, copies or sends.
-         */
         form.addEventListener(
             "input",
-            invalidateCachedMessage
+            function (event) {
+                /*
+                 * Changing the Data URL preview text should not
+                 * unnecessarily clear the generated message.
+                 */
+                if (!event.target.classList.contains("image-data")) {
+                    invalidateCachedMessage();
+                }
+            }
         );
 
         form.addEventListener(
@@ -646,12 +898,33 @@
             generateNewVersion
         );
 
+        document
+            .querySelectorAll(".remove-image-button")
+            .forEach(function (button) {
+                button.addEventListener(
+                    "click",
+                    function () {
+                        const imageNumber =
+                            Number(
+                                button.dataset.imageNumber
+                            );
+
+                        removeImage(imageNumber);
+                    }
+                );
+            });
+
         form.addEventListener(
             "reset",
             function () {
                 window.setTimeout(
                     function () {
                         setDefaultDateAndTime();
+
+                        removeImage(1, false);
+                        removeImage(2, false);
+                        removeImage(3, false);
+
                         invalidateCachedMessage();
                         clearPreview();
                         clearStatus();
@@ -670,7 +943,9 @@
 
         function randomItem(items) {
             const randomIndex =
-                Math.floor(Math.random() * items.length);
+                Math.floor(
+                    Math.random() * items.length
+                );
 
             return items[randomIndex];
         }
@@ -681,31 +956,38 @@
 
         function getPreparedMessage() {
             if (!cachedMessage) {
-                cachedMessage = createMessage();
+                cachedMessage =
+                    createMessage();
             }
 
             return cachedMessage;
         }
 
         function getLocalDateValue(date) {
-            const year = date.getFullYear();
+            const year =
+                date.getFullYear();
 
-            const month = String(
-                date.getMonth() + 1
-            ).padStart(2, "0");
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(2, "0");
 
-            const day = String(
-                date.getDate()
-            ).padStart(2, "0");
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(2, "0");
 
             return `${year}-${month}-${day}`;
         }
 
         function setDefaultDateAndTime() {
             deadlineInput.value =
-                getLocalDateValue(new Date());
+                getLocalDateValue(
+                    new Date()
+                );
 
-            submissionTimeInput.value = "17:00";
+            submissionTimeInput.value =
+                "17:00";
         }
 
         function validateForm() {
@@ -738,7 +1020,9 @@
             }
 
             const date =
-                new Date(dateValue + "T00:00:00");
+                new Date(
+                    dateValue + "T00:00:00"
+                );
 
             return date.toLocaleDateString(
                 "en-IN",
@@ -828,7 +1112,10 @@
                         linksText +=
                             `${index + 1}. ${link}`;
 
-                        if (index < links.length - 1) {
+                        if (
+                            index <
+                            links.length - 1
+                        ) {
                             linksText += "\n";
                         }
                     }
@@ -836,6 +1123,330 @@
             );
 
             return linksText;
+        }
+
+        function initialiseImageSections() {
+            for (
+                let imageNumber = 1;
+                imageNumber <= 3;
+                imageNumber++
+            ) {
+                const pasteZone =
+                    document.getElementById(
+                        `pasteZone${imageNumber}`
+                    );
+
+                const fileInput =
+                    document.getElementById(
+                        `imageFile${imageNumber}`
+                    );
+
+                pasteZone.addEventListener(
+                    "paste",
+                    function (event) {
+                        handleImagePaste(
+                            event,
+                            imageNumber
+                        );
+                    }
+                );
+
+                pasteZone.addEventListener(
+                    "click",
+                    function () {
+                        pasteZone.focus();
+                    }
+                );
+
+                pasteZone.addEventListener(
+                    "keydown",
+                    function (event) {
+                        if (
+                            event.key === "Enter" ||
+                            event.key === " "
+                        ) {
+                            event.preventDefault();
+                            pasteZone.focus();
+                        }
+                    }
+                );
+
+                fileInput.addEventListener(
+                    "change",
+                    function () {
+                        const imageFile =
+                            fileInput.files[0];
+
+                        if (imageFile) {
+                            processImageFile(
+                                imageFile,
+                                imageNumber
+                            );
+                        }
+                    }
+                );
+            }
+        }
+
+        function handleImagePaste(
+            event,
+            imageNumber
+        ) {
+            const clipboardItems =
+                event.clipboardData &&
+                event.clipboardData.items;
+
+            if (!clipboardItems) {
+                showStatus(
+                    "Clipboard image access is not available in this browser.",
+                    "error"
+                );
+
+                return;
+            }
+
+            let imageFound =
+                false;
+
+            for (
+                const item of clipboardItems
+            ) {
+                if (
+                    item.type.startsWith(
+                        "image/"
+                    )
+                ) {
+                    const imageFile =
+                        item.getAsFile();
+
+                    if (!imageFile) {
+                        continue;
+                    }
+
+                    imageFound =
+                        true;
+
+                    event.preventDefault();
+
+                    processImageFile(
+                        imageFile,
+                        imageNumber
+                    );
+
+                    break;
+                }
+            }
+
+            if (!imageFound) {
+                showStatus(
+                    "No image was found in the clipboard.",
+                    "error"
+                );
+            }
+        }
+
+        function processImageFile(
+            imageFile,
+            imageNumber
+        ) {
+            if (
+                !imageFile.type.startsWith(
+                    "image/"
+                )
+            ) {
+                showStatus(
+                    "Please paste or select an image file.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function () {
+                    const dataUrl =
+                        String(
+                            reader.result
+                        );
+
+                    pastedImages[
+                        imageNumber - 1
+                    ] = {
+                        fileName:
+                            imageFile.name ||
+                            `pasted-image-${imageNumber}`,
+
+                        mimeType:
+                            imageFile.type,
+
+                        dataUrl:
+                            dataUrl
+                    };
+
+                    displayImage(
+                        imageNumber,
+                        dataUrl
+                    );
+
+                    invalidateCachedMessage();
+
+                    showStatus(
+                        `Image ${imageNumber} was converted into a Data URL.`,
+                        "success"
+                    );
+                };
+
+            reader.onerror =
+                function () {
+                    showStatus(
+                        `Image ${imageNumber} could not be read.`,
+                        "error"
+                    );
+                };
+
+            reader.readAsDataURL(
+                imageFile
+            );
+        }
+
+        function displayImage(
+            imageNumber,
+            dataUrl
+        ) {
+            const preview =
+                document.getElementById(
+                    `imagePreview${imageNumber}`
+                );
+
+            const dataField =
+                document.getElementById(
+                    `imageData${imageNumber}`
+                );
+
+            const pasteZone =
+                document.getElementById(
+                    `pasteZone${imageNumber}`
+                );
+
+            preview.src =
+                dataUrl;
+
+            preview.style.display =
+                "block";
+
+            dataField.value =
+                dataUrl;
+
+            pasteZone.textContent =
+                `Image ${imageNumber} added successfully`;
+
+            pasteZone.classList.add(
+                "has-image"
+            );
+        }
+
+        function removeImage(
+            imageNumber,
+            showMessage = true
+        ) {
+            pastedImages[
+                imageNumber - 1
+            ] = null;
+
+            const preview =
+                document.getElementById(
+                    `imagePreview${imageNumber}`
+                );
+
+            const dataField =
+                document.getElementById(
+                    `imageData${imageNumber}`
+                );
+
+            const pasteZone =
+                document.getElementById(
+                    `pasteZone${imageNumber}`
+                );
+
+            const fileInput =
+                document.getElementById(
+                    `imageFile${imageNumber}`
+                );
+
+            preview.removeAttribute(
+                "src"
+            );
+
+            preview.style.display =
+                "none";
+
+            dataField.value =
+                "";
+
+            fileInput.value =
+                "";
+
+            pasteZone.textContent =
+                `Tap here and paste Image ${imageNumber}`;
+
+            pasteZone.classList.remove(
+                "has-image"
+            );
+
+            invalidateCachedMessage();
+
+            if (showMessage) {
+                showStatus(
+                    `Image ${imageNumber} was removed.`,
+                    "success"
+                );
+            }
+        }
+
+        function createImageDataSection() {
+            const availableImages =
+                pastedImages
+                    .map(
+                        function (
+                            image,
+                            index
+                        ) {
+                            if (!image) {
+                                return null;
+                            }
+
+                            return {
+                                number:
+                                    index + 1,
+
+                                dataUrl:
+                                    image.dataUrl
+                            };
+                        }
+                    )
+                    .filter(Boolean);
+
+            if (
+                availableImages.length === 0
+            ) {
+                return "";
+            }
+
+            let section =
+                "\n\nPasted image Data URLs:";
+
+            availableImages.forEach(
+                function (image) {
+                    section +=
+`\n\nImage ${image.number}:
+${image.dataUrl}`;
+                }
+            );
+
+            return section;
         }
 
         function createMessage() {
@@ -860,7 +1471,9 @@
 
             const submissionTime =
                 formatTime(
-                    getValue("submissionTime")
+                    getValue(
+                        "submissionTime"
+                    )
                 );
 
             const teacherNote =
@@ -870,22 +1483,35 @@
                 getTodayMessageDate();
 
             const motivation =
-                randomItem(motivationalClosings);
+                randomItem(
+                    motivationalClosings
+                );
 
-            let message = "";
+            let message =
+                "";
 
-            if (selectedType === "daily") {
+            if (
+                selectedType === "daily"
+            ) {
                 const greeting =
-                    randomItem(greetings.morning);
+                    randomItem(
+                        greetings.morning
+                    );
 
                 const heading =
-                    randomItem(dailyHeadings);
+                    randomItem(
+                        dailyHeadings
+                    );
 
                 const encouragement =
-                    randomItem(dailyEncouragements);
+                    randomItem(
+                        dailyEncouragements
+                    );
 
                 const submissionReminder =
-                    randomItem(submissionReminders);
+                    randomItem(
+                        submissionReminders
+                    );
 
                 message =
 `Date: ${messageDate}
@@ -909,21 +1535,33 @@ ${submissionReminder}
 ${motivation}`;
             }
 
-            else if (selectedType === "weekly") {
+            else if (
+                selectedType === "weekly"
+            ) {
                 const greeting =
-                    randomItem(greetings.morning);
+                    randomItem(
+                        greetings.morning
+                    );
 
                 const heading =
-                    randomItem(weeklyHeadings);
+                    randomItem(
+                        weeklyHeadings
+                    );
 
                 const weeklyEncouragement =
-                    randomItem(weeklyEncouragements);
+                    randomItem(
+                        weeklyEncouragements
+                    );
 
                 const understandingReminder =
-                    randomItem(understandingReminders);
+                    randomItem(
+                        understandingReminders
+                    );
 
                 const confirmation =
-                    randomItem(confirmationRequests);
+                    randomItem(
+                        confirmationRequests
+                    );
 
                 message =
 `Date: ${messageDate}
@@ -951,18 +1589,14 @@ ${motivation}`;
 
             else {
                 const greeting =
-                    randomItem(greetings.general);
-
-                const headings = [
-                    "Learning Message",
-                    "A Message for You",
-                    "Important Learning Update",
-                    "Study Information",
-                    "Learning Instructions"
-                ];
+                    randomItem(
+                        greetings.general
+                    );
 
                 const heading =
-                    randomItem(headings);
+                    randomItem(
+                        otherHeadings
+                    );
 
                 message =
 `Date: ${messageDate}
@@ -984,6 +1618,9 @@ ${motivation}`;
 
             message +=
                 createLinksSection();
+
+            message +=
+                createImageDataSection();
 
             if (teacherNote) {
                 message +=
@@ -1068,7 +1705,10 @@ Programmer's Picnic by Champak Roy`;
                     return;
                 }
                 catch (error) {
-                    if (error.name === "AbortError") {
+                    if (
+                        error.name ===
+                        "AbortError"
+                    ) {
                         showStatus(
                             "Sharing was cancelled.",
                             "error"
@@ -1086,7 +1726,9 @@ Programmer's Picnic by Champak Roy`;
 
             const whatsappUrl =
                 "https://wa.me/?text=" +
-                encodeURIComponent(message);
+                encodeURIComponent(
+                    message
+                );
 
             const newWindow =
                 window.open(
@@ -1112,9 +1754,9 @@ Programmer's Picnic by Champak Roy`;
                 getPreparedMessage();
 
             try {
-                await navigator.clipboard.writeText(
-                    message
-                );
+                await navigator
+                    .clipboard
+                    .writeText(message);
 
                 showStatus(
                     "Message copied. You can paste it into WhatsApp.",
@@ -1122,7 +1764,9 @@ Programmer's Picnic by Champak Roy`;
                 );
             }
             catch (error) {
-                fallbackCopy(message);
+                fallbackCopy(
+                    message
+                );
             }
         }
 
@@ -1168,7 +1812,10 @@ Programmer's Picnic by Champak Roy`;
             temporaryTextArea.remove();
         }
 
-        function showStatus(text, type) {
+        function showStatus(
+            text,
+            type
+        ) {
             statusMessage.textContent =
                 text;
 
@@ -1198,6 +1845,7 @@ Programmer's Picnic by Champak Roy`;
         }
 
         setDefaultDateAndTime();
+        initialiseImageSections();
     </script>
 
 </body>
