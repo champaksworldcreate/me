@@ -12,11 +12,11 @@
 
     <meta
         name="description"
-        content="Create personalised student learning messages with links and pasted images, then share them through WhatsApp.">
+        content="Create personalised student learning messages with links and pasted images, share through WhatsApp and save sent messages in the browser.">
 
     <meta
         name="keywords"
-        content="student learning message, WhatsApp student message, image data URL, Programmer's Picnic, Champak Roy">
+        content="student learning message, WhatsApp student message, saved messages, local storage, Programmer's Picnic, Champak Roy">
 
     <meta name="author" content="Champak Roy">
     <meta name="theme-color" content="#1769aa">
@@ -264,6 +264,11 @@
             outline: 3px solid rgba(25, 118, 210, 0.25);
         }
 
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+
         .preview-button {
             color: #0d47a1;
             background: #e3f2fd;
@@ -326,6 +331,155 @@
             color: #b71c1c;
         }
 
+        .saved-messages-section {
+            margin-top: 28px;
+            padding: 22px;
+            border: 1px solid #bbdefb;
+            border-radius: 14px;
+            background: #f7fbff;
+        }
+
+        .saved-messages-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .saved-messages-header h3 {
+            margin: 0;
+            color: #0d47a1;
+        }
+
+        .saved-message-count {
+            margin: 5px 0 0;
+            color: #607d8b;
+            font-size: 14px;
+        }
+
+        .clear-history-button {
+            min-height: 42px;
+            padding: 10px 15px;
+            color: #b71c1c;
+            background: #ffebee;
+        }
+
+        .saved-messages-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .saved-message-card {
+            padding: 17px;
+            border: 1px solid #d7e3ef;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .saved-message-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .saved-message-card h4 {
+            margin: 0;
+            color: #0d47a1;
+            font-size: 18px;
+        }
+
+        .saved-message-date {
+            margin: 5px 0 0;
+            color: #78909c;
+            font-size: 13px;
+        }
+
+        .saved-message-type {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 5px 9px;
+            border-radius: 20px;
+            color: #0d47a1;
+            background: #e3f2fd;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .saved-message-topic {
+            display: block;
+            margin-bottom: 10px;
+            color: #37474f;
+        }
+
+        .saved-message-text {
+            max-height: 180px;
+            margin: 12px 0;
+            padding: 13px;
+            overflow: auto;
+            border: 1px solid #eceff1;
+            border-radius: 8px;
+            background: #fafafa;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        .saved-message-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 9px;
+        }
+
+        .saved-message-actions button {
+            min-height: 42px;
+            padding: 9px;
+            font-size: 14px;
+        }
+
+        .use-saved-button {
+            color: #0d47a1;
+            background: #e3f2fd;
+        }
+
+        .copy-saved-button {
+            color: #ffffff;
+            background: #455a64;
+        }
+
+        .send-saved-button {
+            color: #063d1d;
+            background: #25d366;
+        }
+
+        .delete-saved-button {
+            color: #b71c1c;
+            background: #ffebee;
+        }
+
+        .empty-history-message {
+            margin: 0;
+            padding: 25px 15px;
+            border: 2px dashed #bbdefb;
+            border-radius: 10px;
+            color: #607d8b;
+            background: #ffffff;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .storage-note {
+            margin: 15px 0 0;
+            color: #607d8b;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
         .information-box {
             margin-top: 22px;
             padding: 15px;
@@ -373,6 +527,25 @@
             .secondary-buttons {
                 grid-template-columns: 1fr;
             }
+
+            .saved-messages-header,
+            .saved-message-card-header {
+                flex-direction: column;
+            }
+
+            .clear-history-button {
+                width: 100%;
+            }
+
+            .saved-message-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .saved-message-actions {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -384,7 +557,8 @@
 
         <p>
             Prepare a personalised learning message, paste up to three
-            images and share the generated content through WhatsApp.
+            images, share it through WhatsApp and reuse saved messages
+            afterwards.
         </p>
     </header>
 
@@ -678,6 +852,42 @@
                 <p id="messagePreview"></p>
             </section>
 
+            <section
+                class="saved-messages-section"
+                id="savedMessagesSection">
+
+                <div class="saved-messages-header">
+                    <div>
+                        <h3>Saved Sent Messages</h3>
+
+                        <p
+                            class="saved-message-count"
+                            id="savedMessageCount">
+                            0 messages saved
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="clear-history-button"
+                        id="clearHistoryButton">
+                        Delete All Messages
+                    </button>
+                </div>
+
+                <div
+                    class="saved-messages-list"
+                    id="savedMessagesList">
+                </div>
+
+                <p class="storage-note">
+                    Messages are saved only in this browser using Local
+                    Storage. Clearing browser data may remove them.
+                    Messages containing large image Data URLs may use a
+                    large amount of storage.
+                </p>
+            </section>
+
             <div class="information-box">
                 Greetings, headings, encouragement and closing lines are
                 selected randomly. Preview, Copy and Send use the same
@@ -687,7 +897,8 @@
 
             <div class="warning-box">
                 Image Data URLs can be extremely long. Large images may
-                make the WhatsApp message too long. Small compressed
+                make the WhatsApp message too long and may exceed the
+                browser's Local Storage capacity. Small compressed
                 screenshots are more likely to work.
             </div>
         </section>
@@ -727,6 +938,21 @@
 
         const newVersionButton =
             document.getElementById("newVersionButton");
+
+        const savedMessagesList =
+            document.getElementById("savedMessagesList");
+
+        const savedMessageCount =
+            document.getElementById("savedMessageCount");
+
+        const clearHistoryButton =
+            document.getElementById("clearHistoryButton");
+
+        const SAVED_MESSAGES_KEY =
+            "programmersPicnicSentStudentMessages";
+
+        const MAX_SAVED_MESSAGES =
+            50;
 
         let cachedMessage = "";
 
@@ -868,10 +1094,6 @@
         form.addEventListener(
             "input",
             function (event) {
-                /*
-                 * Changing the Data URL preview text should not
-                 * unnecessarily clear the generated message.
-                 */
                 if (!event.target.classList.contains("image-data")) {
                     invalidateCachedMessage();
                 }
@@ -896,6 +1118,44 @@
         newVersionButton.addEventListener(
             "click",
             generateNewVersion
+        );
+
+        clearHistoryButton.addEventListener(
+            "click",
+            deleteAllSavedMessages
+        );
+
+        savedMessagesList.addEventListener(
+            "click",
+            async function (event) {
+                const button =
+                    event.target.closest(
+                        "button[data-action]"
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+                const action =
+                    button.dataset.action;
+
+                const messageId =
+                    button.dataset.messageId;
+
+                if (action === "use") {
+                    useSavedMessage(messageId);
+                }
+                else if (action === "copy") {
+                    await copySavedMessage(messageId);
+                }
+                else if (action === "send") {
+                    sendSavedMessage(messageId);
+                }
+                else if (action === "delete") {
+                    deleteSavedMessage(messageId);
+                }
+            }
         );
 
         document
@@ -1208,9 +1468,7 @@
             let imageFound =
                 false;
 
-            for (
-                const item of clipboardItems
-            ) {
+            for (const item of clipboardItems) {
                 if (
                     item.type.startsWith(
                         "image/"
@@ -1697,10 +1955,17 @@ Programmer's Picnic by Champak Roy`;
                             message
                     });
 
-                    showStatus(
-                        "The message was shared successfully.",
-                        "success"
-                    );
+                    const wasSaved =
+                        saveSentMessage(
+                            message
+                        );
+
+                    if (wasSaved) {
+                        showStatus(
+                            "The message was shared and saved in Sent Messages.",
+                            "success"
+                        );
+                    }
 
                     return;
                 }
@@ -1710,7 +1975,7 @@ Programmer's Picnic by Champak Roy`;
                         "AbortError"
                     ) {
                         showStatus(
-                            "Sharing was cancelled.",
+                            "Sharing was cancelled. The message was not saved.",
                             "error"
                         );
 
@@ -1741,6 +2006,20 @@ Programmer's Picnic by Champak Roy`;
                 showStatus(
                     "The browser blocked the new window. Please allow pop-ups or copy the message.",
                     "error"
+                );
+
+                return;
+            }
+
+            const wasSaved =
+                saveSentMessage(
+                    message
+                );
+
+            if (wasSaved) {
+                showStatus(
+                    "The message was opened in WhatsApp and saved in Sent Messages.",
+                    "success"
                 );
             }
         }
@@ -1812,6 +2091,605 @@ Programmer's Picnic by Champak Roy`;
             temporaryTextArea.remove();
         }
 
+        function getSavedMessages() {
+            try {
+                const storedValue =
+                    localStorage.getItem(
+                        SAVED_MESSAGES_KEY
+                    );
+
+                if (!storedValue) {
+                    return [];
+                }
+
+                const parsedValue =
+                    JSON.parse(storedValue);
+
+                return Array.isArray(parsedValue)
+                    ? parsedValue
+                    : [];
+            }
+            catch (error) {
+                console.error(
+                    "Could not read saved messages:",
+                    error
+                );
+
+                return [];
+            }
+        }
+
+        function writeSavedMessages(messages) {
+            localStorage.setItem(
+                SAVED_MESSAGES_KEY,
+                JSON.stringify(messages)
+            );
+        }
+
+        function createSavedMessageId() {
+            return (
+                Date.now().toString(36) +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .slice(2, 9)
+            );
+        }
+
+        function saveSentMessage(message) {
+            const savedMessage = {
+                id:
+                    createSavedMessageId(),
+
+                studentName:
+                    getValue("studentName") ||
+                    "Student",
+
+                messageType:
+                    getValue("messageType") ||
+                    "others",
+
+                topic:
+                    getValue("topic") ||
+                    "Learning Message",
+
+                message:
+                    message,
+
+                savedAt:
+                    new Date().toISOString()
+            };
+
+            let messages =
+                getSavedMessages();
+
+            messages.unshift(
+                savedMessage
+            );
+
+            messages =
+                messages.slice(
+                    0,
+                    MAX_SAVED_MESSAGES
+                );
+
+            try {
+                writeSavedMessages(
+                    messages
+                );
+
+                renderSavedMessages();
+
+                return true;
+            }
+            catch (error) {
+                while (messages.length > 1) {
+                    messages.pop();
+
+                    try {
+                        writeSavedMessages(
+                            messages
+                        );
+
+                        renderSavedMessages();
+
+                        showStatus(
+                            "The message was saved, but older messages were removed because browser storage was full.",
+                            "success"
+                        );
+
+                        return true;
+                    }
+                    catch (storageError) {
+                        console.error(
+                            "Local Storage is still full:",
+                            storageError
+                        );
+                    }
+                }
+
+                showStatus(
+                    "The message was shared, but it was too large to save. Remove or compress large images.",
+                    "error"
+                );
+
+                return false;
+            }
+        }
+
+        function formatSavedDate(dateValue) {
+            const date =
+                new Date(dateValue);
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return "Date unavailable";
+            }
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            );
+        }
+
+        function createHistoryButton(
+            text,
+            className,
+            action,
+            messageId
+        ) {
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type =
+                "button";
+
+            button.textContent =
+                text;
+
+            button.className =
+                className;
+
+            button.dataset.action =
+                action;
+
+            button.dataset.messageId =
+                messageId;
+
+            return button;
+        }
+
+        function renderSavedMessages() {
+            const messages =
+                getSavedMessages();
+
+            savedMessagesList.replaceChildren();
+
+            savedMessageCount.textContent =
+                messages.length === 1
+                    ? "1 message saved"
+                    : `${messages.length} messages saved`;
+
+            clearHistoryButton.disabled =
+                messages.length === 0;
+
+            if (messages.length === 0) {
+                const emptyMessage =
+                    document.createElement(
+                        "p"
+                    );
+
+                emptyMessage.className =
+                    "empty-history-message";
+
+                emptyMessage.textContent =
+                    "No sent messages have been saved yet. A message will appear here after it is shared or opened in WhatsApp.";
+
+                savedMessagesList.appendChild(
+                    emptyMessage
+                );
+
+                return;
+            }
+
+            messages.forEach(
+                function (savedMessage) {
+                    const card =
+                        document.createElement(
+                            "article"
+                        );
+
+                    card.className =
+                        "saved-message-card";
+
+                    const header =
+                        document.createElement(
+                            "div"
+                        );
+
+                    header.className =
+                        "saved-message-card-header";
+
+                    const headingArea =
+                        document.createElement(
+                            "div"
+                        );
+
+                    const heading =
+                        document.createElement(
+                            "h4"
+                        );
+
+                    heading.textContent =
+                        savedMessage.studentName ||
+                        "Student";
+
+                    const savedDate =
+                        document.createElement(
+                            "p"
+                        );
+
+                    savedDate.className =
+                        "saved-message-date";
+
+                    savedDate.textContent =
+                        formatSavedDate(
+                            savedMessage.savedAt
+                        );
+
+                    headingArea.append(
+                        heading,
+                        savedDate
+                    );
+
+                    const typeLabel =
+                        document.createElement(
+                            "span"
+                        );
+
+                    typeLabel.className =
+                        "saved-message-type";
+
+                    typeLabel.textContent =
+                        savedMessage.messageType ||
+                        "others";
+
+                    header.append(
+                        headingArea,
+                        typeLabel
+                    );
+
+                    const topic =
+                        document.createElement(
+                            "strong"
+                        );
+
+                    topic.className =
+                        "saved-message-topic";
+
+                    topic.textContent =
+                        savedMessage.topic ||
+                        "Learning Message";
+
+                    const messageText =
+                        document.createElement(
+                            "div"
+                        );
+
+                    messageText.className =
+                        "saved-message-text";
+
+                    messageText.textContent =
+                        savedMessage.message ||
+                        "";
+
+                    const actions =
+                        document.createElement(
+                            "div"
+                        );
+
+                    actions.className =
+                        "saved-message-actions";
+
+                    actions.append(
+                        createHistoryButton(
+                            "Use Message",
+                            "use-saved-button",
+                            "use",
+                            savedMessage.id
+                        ),
+
+                        createHistoryButton(
+                            "Copy",
+                            "copy-saved-button",
+                            "copy",
+                            savedMessage.id
+                        ),
+
+                        createHistoryButton(
+                            "Send Again",
+                            "send-saved-button",
+                            "send",
+                            savedMessage.id
+                        ),
+
+                        createHistoryButton(
+                            "Delete",
+                            "delete-saved-button",
+                            "delete",
+                            savedMessage.id
+                        )
+                    );
+
+                    card.append(
+                        header,
+                        topic,
+                        messageText,
+                        actions
+                    );
+
+                    savedMessagesList.appendChild(
+                        card
+                    );
+                }
+            );
+        }
+
+        function findSavedMessage(messageId) {
+            return getSavedMessages()
+                .find(
+                    function (savedMessage) {
+                        return (
+                            savedMessage.id ===
+                            messageId
+                        );
+                    }
+                );
+        }
+
+        function useSavedMessage(messageId) {
+            const savedMessage =
+                findSavedMessage(
+                    messageId
+                );
+
+            if (!savedMessage) {
+                showStatus(
+                    "The saved message could not be found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            cachedMessage =
+                savedMessage.message;
+
+            messagePreview.textContent =
+                savedMessage.message;
+
+            previewSection.style.display =
+                "block";
+
+            showStatus(
+                "The saved message has been loaded into the preview.",
+                "success"
+            );
+
+            previewSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+        async function copySavedMessage(
+            messageId
+        ) {
+            const savedMessage =
+                findSavedMessage(
+                    messageId
+                );
+
+            if (!savedMessage) {
+                showStatus(
+                    "The saved message could not be found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(
+                    savedMessage.message
+                );
+
+                showStatus(
+                    "The saved message was copied.",
+                    "success"
+                );
+            }
+            catch (error) {
+                fallbackCopy(
+                    savedMessage.message
+                );
+            }
+        }
+
+        async function sendSavedMessage(
+            messageId
+        ) {
+            const savedMessage =
+                findSavedMessage(
+                    messageId
+                );
+
+            if (!savedMessage) {
+                showStatus(
+                    "The saved message could not be found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title:
+                            "Student Learning Message",
+
+                        text:
+                            savedMessage.message
+                    });
+
+                    showStatus(
+                        "The saved message was shared again.",
+                        "success"
+                    );
+
+                    return;
+                }
+                catch (error) {
+                    if (
+                        error.name ===
+                        "AbortError"
+                    ) {
+                        showStatus(
+                            "Sharing was cancelled.",
+                            "error"
+                        );
+
+                        return;
+                    }
+                }
+            }
+
+            const whatsappUrl =
+                "https://wa.me/?text=" +
+                encodeURIComponent(
+                    savedMessage.message
+                );
+
+            const newWindow =
+                window.open(
+                    whatsappUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            if (!newWindow) {
+                showStatus(
+                    "The browser blocked WhatsApp. Please allow pop-ups or copy the message.",
+                    "error"
+                );
+
+                return;
+            }
+
+            showStatus(
+                "The saved message was opened in WhatsApp.",
+                "success"
+            );
+        }
+
+        function deleteSavedMessage(
+            messageId
+        ) {
+            const savedMessage =
+                findSavedMessage(
+                    messageId
+                );
+
+            if (!savedMessage) {
+                showStatus(
+                    "The saved message could not be found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const shouldDelete =
+                window.confirm(
+                    `Delete the saved message for ${savedMessage.studentName}?`
+                );
+
+            if (!shouldDelete) {
+                return;
+            }
+
+            const updatedMessages =
+                getSavedMessages()
+                    .filter(
+                        function (message) {
+                            return (
+                                message.id !==
+                                messageId
+                            );
+                        }
+                    );
+
+            try {
+                writeSavedMessages(
+                    updatedMessages
+                );
+
+                renderSavedMessages();
+
+                showStatus(
+                    "The saved message was deleted.",
+                    "success"
+                );
+            }
+            catch (error) {
+                showStatus(
+                    "The message could not be deleted.",
+                    "error"
+                );
+            }
+        }
+
+        function deleteAllSavedMessages() {
+            const messages =
+                getSavedMessages();
+
+            if (messages.length === 0) {
+                return;
+            }
+
+            const shouldDelete =
+                window.confirm(
+                    `Delete all ${messages.length} saved messages? This action cannot be undone.`
+                );
+
+            if (!shouldDelete) {
+                return;
+            }
+
+            localStorage.removeItem(
+                SAVED_MESSAGES_KEY
+            );
+
+            renderSavedMessages();
+
+            showStatus(
+                "All saved messages were deleted.",
+                "success"
+            );
+        }
+
         function showStatus(
             text,
             type
@@ -1846,6 +2724,7 @@ Programmer's Picnic by Champak Roy`;
 
         setDefaultDateAndTime();
         initialiseImageSections();
+        renderSavedMessages();
     </script>
 
 </body>
